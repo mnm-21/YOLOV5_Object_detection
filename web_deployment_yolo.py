@@ -144,11 +144,13 @@ def main():
             # Display the annotated image
             st.image(annotated_image, caption="Annotated Image", use_column_width=True)
 
-              # Provide a download link for the annotated image
+                  # Provide a download link for the annotated image
             annotated_image_pil = Image.fromarray(annotated_image)
+            output_path = "annotated_image.png"  
+            annotated_image_pil.save(output_path, format="PNG")  
             download_button = st.download_button(
                 label="Download Annotated Image",
-                data=Image.fromarray(annotated_image_pil).save(output_path, format="PNG"),
+                data=output_path,
                 file_name="annotated_image.png",
                 key="download_button",
             )
