@@ -76,7 +76,7 @@ def predictions(image):
         text = f'{class_name}: {bb_conf}'
         cv2.rectangle(image, (x, y), (x + w, y + h), colours, 2)
         cv2.rectangle(image, (x, y - 30), (x + w, y), colours, -1)
-        cv2.putText(image, text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 0), 1.5)
+        cv2.putText(image, text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 0), 2)
 
     return image
 
@@ -109,7 +109,7 @@ def generate_colours(ID):
     return color_map[ID]
 
 def main():
-    st.title("Multiple Object Detector")
+    st.title('🚀 Welcome to my Multiple Object Detector Web App!')
     st.write(
         "Hello! I am Mayank Chandak, a student at IIT Madras with a passion for Artificial Intelligence and Machine Learning. "
         "This web app utilizes a model trained on the VOC2012 dataset and can predict 20 different objects in images. "
