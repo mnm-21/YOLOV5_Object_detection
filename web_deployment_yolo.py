@@ -76,25 +76,48 @@ def predictions(image):
         text = f'{class_name}: {bb_conf}'
         cv2.rectangle(image, (x, y), (x + w, y + h), colours, 2)
         cv2.rectangle(image, (x, y - 30), (x + w, y), colours, -1)
-        cv2.putText(image, text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 0.7, (0, 0, 0), 1)
+        cv2.putText(image, text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 0), 1.5)
 
     return image
 
 
 def generate_colours(ID):
-    np.random.seed(10)
-    colours = np.random.randint(100, 255, size=(20, 3)).tolist()
-    return tuple(colours[ID])
+    color_map = [
+        (255, 0, 0),    # Red
+        (0, 255, 0),    # Green
+        (0, 0, 255),    # Blue
+        (255, 255, 0),  # Yellow
+        (255, 0, 255),  # Magenta
+        (0, 255, 255),  # Cyan
+        (128, 0, 0),    # Maroon
+        (0, 128, 0),    # Olive
+        (0, 0, 128),    # Navy
+        (128, 128, 0),  # Olive Green
+        (128, 0, 128),  # Purple
+        (0, 128, 128),  # Teal
+        (255, 165, 0),  # Orange
+        (128, 128, 128),  # Gray
+        (128, 255, 0),  # Lime
+        (255, 128, 0),  # Dark Orange
+        (128, 0, 255),  # Violet
+        (255, 128, 128),  # Light Pink
+        (255, 255, 128),  # Pale Yellow
+        (0, 0, 0),      # Black
+    ]
+
+    # Using the color map based on the class ID
+    return color_map[ID]
 
 def main():
     st.title("Multiple Object Detector")
-    st.write("Hello! I am Mayank Chandak, a student at IIT Madras with a passion for Artificial Intelligence and Machine Learning. "
-             "This web app utilizes a model trained on the VOC2012 dataset and can predict 20 different objects in images. "
-             "Upload an image and the model will detect and annotate objects in the scene. The objects detected that can be detected are :"
-             "person,car,chair,bottle,pottedplant,bird,dog,sofa,bicycle,horse,boat,motorbike,cat,"
-             "tv/monitor,cow,sheep,aeroplane,train,dining table,bus")
+    st.write(
+        "Hello! I am Mayank Chandak, a student at IIT Madras with a passion for Artificial Intelligence and Machine Learning. "
+        "This web app utilizes a model trained on the VOC2012 dataset and can predict 20 different objects in images. "
+        "Upload an image, and the model will detect and annotate objects in the scene. The objects that can be detected are: "
+        "person, car, chair, bottle, potted plant, bird, dog, sofa, bicycle, horse, boat, motorbike, cat, "
+        "TV/monitor, cow, sheep, aeroplane, train, dining table, bus.")
 
-    st.sidebar.header("Settings")
+    st.sidebar.header("Details")
 
     # File upload
     upload = st.file_uploader(label="Upload Image Here:", type=["png", "jpg", "jpeg"])
@@ -109,7 +132,6 @@ def main():
 
         if file_extension in ["png", "jpg", "jpeg"]:
             # For images
-            st.sidebar.subheader("Uploaded Image:")
             img = Image.open(upload)
             st.image(img, caption="Uploaded Image", use_column_width=True)
 
