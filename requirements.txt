@@ -4,3 +4,4 @@ numpy==1.26.3
 pickle-mixin==1.0.2
 streamlit==1.29.0
 streamlit-option-menu==0.3.6
+libgl1-mesa-glx
