@@ -1,0 +1,6 @@
+Pillow==10.2.0
+opencv-python-headless==4.9.0.80
+numpy==1.26.3
+pickle-mixin==1.0.2
+streamlit==1.29.0
+streamlit-option-menu==0.3.6
