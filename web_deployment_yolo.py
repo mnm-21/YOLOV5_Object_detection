@@ -112,7 +112,7 @@ def main():
     st.title('🚀 Welcome to my Multiple Object Detector Web App!')
     st.write(
         "Hello! I am Mayank Chandak, a student at IIT Madras with a passion for Artificial Intelligence and Machine Learning. "
-        "This web app utilizes a model trained on the VOC2012 dataset and can predict 20 different objects in images. "
+        "This web app utilizes a model trained on the VOC2012 dataset using YOLOv5 and can predict 20 different objects in images. "
         "Upload an image, and the model will detect and annotate objects in the scene. The objects that can be detected are: "
         "person, car, chair, bottle, potted plant, bird, dog, sofa, bicycle, horse, boat, motorbike, cat, "
         "TV/monitor, cow, sheep, aeroplane, train, dining table, bus.")
