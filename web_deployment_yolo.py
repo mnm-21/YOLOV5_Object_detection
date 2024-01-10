@@ -102,7 +102,7 @@ def generate_colours(ID):
         (128, 0, 255),  # Violet
         (255, 128, 128),  # Light Pink
         (255, 255, 128),  # Pale Yellow
-        (0, 0, 0),      # Black
+        (173, 216, 230),  # Light Blue
     ]
 
     # Using the color map based on the class ID
