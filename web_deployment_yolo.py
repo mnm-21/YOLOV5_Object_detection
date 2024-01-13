@@ -156,7 +156,7 @@ def main():
             )
 
         else:
-            st.warning("Unsupported file format. Please upload an image (png, jpg, jpeg) or a video (mp4).")
+            st.warning("Unsupported file format. Please upload an image (png, jpg, jpeg).")
 
     st.sidebar.subheader("Citation Information:")
     st.sidebar.markdown(
