@@ -73,7 +73,7 @@ def predictions(image):
         classes_id = classes[ind]
         class_name = labels[classes_id]
         colours = generate_colours(classes_id)
-        text = f'{class_name.upper()}: {bb_conf}'
+        text = f'{class_name}: {bb_conf}'
         cv2.rectangle(image, (x, y), (x + w, y + h), colours, 2)
         cv2.rectangle(image, (x, y - 30), (x + w, y), colours, -1)
         cv2.putText(image, text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 0.7, (0, 0, 0), 1)
