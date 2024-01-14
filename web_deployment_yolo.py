@@ -1,17 +1,19 @@
-import streamlit as st
-from PIL import Image
+# app.py 
 import zipfile
 import cv2
 import numpy as np
 import os
+import streamlit as st
+from streamlit_option_menu import option_menu
+from PIL import Image
 
 extract_path = os.getcwd()
 os.path.join(extract_path, 'best.onnx')
 with zipfile.ZipFile('best.zip', 'r') as zip_ref:
     zip_ref.extractall(extract_path)
 
-labels = ['person','car','chair','bottle','pottedplant','bird','dog','sofa','bicycle','horse','boat','motorbike','cat',
-          'tvmonitor','cow','sheep','aeroplane','train','diningtable','bus']
+labels = ['person', 'car', 'chair', 'bottle', 'pottedplant', 'bird', 'dog', 'sofa', 'bicycle', 'horse', 'boat',
+          'motorbike', 'cat', 'tvmonitor', 'cow', 'sheep', 'aeroplane', 'train', 'diningtable', 'bus']
 
 # Loading YOLO Model
 yolo = cv2.dnn.readNetFromONNX('best.onnx')
@@ -73,10 +75,10 @@ def predictions(image):
         classes_id = classes[ind]
         class_name = labels[classes_id]
         colours = generate_colours(classes_id)
-        text = f'{class_name}: {bb_conf}'
+        text = f'{class_name}.: {bb_conf}'
         cv2.rectangle(image, (x, y), (x + w, y + h), colours, 2)
         cv2.rectangle(image, (x, y - 30), (x + w, y), colours, -1)
-        cv2.putText(image, text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 0.7, (0, 0, 0), 1)
+        cv2.putText(image, text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 0), 1)
 
     return image
 
@@ -102,13 +104,25 @@ def generate_colours(ID):
         (128, 0, 255),  # Violet
         (255, 128, 128),  # Light Pink
         (255, 255, 128),  # Pale Yellow
-        (173, 216, 230),  # Light Blue
+        (0, 0, 0),      # Black
     ]
 
     # Using the color map based on the class ID
     return color_map[ID]
 
-def main():
+    
+with st.sidebar:
+    selection = option_menu('Object Detection Using YOLOv5',
+                            
+                            ['Home Page',
+                             'Picture'],
+                            
+                            icons = ['house-door-fill','image'],
+                            
+                            default_index = 0)
+    
+# Home page    
+if selection == 'Home Page':
     st.title('🚀 Welcome to my Multiple Object Detector Web App!')
     st.write(
         "Hello! I am Mayank Chandak, a student at IIT Madras with a passion for Artificial Intelligence and Machine Learning. "
@@ -117,8 +131,16 @@ def main():
         "person, car, chair, bottle, potted plant, bird, dog, sofa, bicycle, horse, boat, motorbike, cat, "
         "TV/monitor, cow, sheep, aeroplane, train, dining table, bus.")
 
-    st.sidebar.header("Details")
-
+    st.warning("This model was trained on the [PASCAL Visual Object Classes Challenge 2012 "
+        "(VOC2012)](http://www.pascal-network.org/challenges/VOC/voc2012/workshop/index.html) dataset. "
+        "@misc{pascal-voc-2012,\n"
+        "    author = \"Everingham, M. and Van~Gool, L. and Williams, C. K. I. and Winn, J. and Zisserman, A.\",\n"
+        "    title = \"The {PASCAL} {V}isual {O}bject {C}lasses {C}hallenge 2012 {(VOC2012)} {R}esults\",\n"
+        "    howpublished = \"http://www.pascal-network.org/challenges/VOC/voc2012/workshop/index.html\""
+        ")")
+    
+if selection == 'Picture':
+    st.title('Object detection in image')
     # File upload
     upload = st.file_uploader(label="Upload Image Here:", type=["png", "jpg", "jpeg"])
 
@@ -131,7 +153,6 @@ def main():
         file_extension = upload.name.split(".")[-1].lower()
 
         if file_extension in ["png", "jpg", "jpeg"]:
-            # For images
             img = Image.open(upload)
             st.image(img, caption="Uploaded Image", use_column_width=True)
 
@@ -144,9 +165,8 @@ def main():
             # Display the annotated image
             st.image(annotated_image, caption="Annotated Image", use_column_width=True)
 
-            annotated_image_pil = Image.fromarray(annotated_image)
             output_path = "annotated_" + upload.name  # Modify the output path to include "annotated" prefix
-            annotated_image_pil.save(output_path, format="PNG")  # Save the annotated image
+            cv2.imwrite(output_path, annotated_image)
     
             download_button = st.download_button(
                 label="Download Annotated Image",
@@ -158,13 +178,11 @@ def main():
         else:
             st.warning("Unsupported file format. Please upload an image (png, jpg, jpeg).")
 
-    st.sidebar.subheader("Citation Information:")
-    st.sidebar.markdown(
-        "This model was trained on the [PASCAL Visual Object Classes Challenge 2012 (VOC2012)](http://www.pascal-network.org/challenges/VOC/voc2012/workshop/index.html) dataset. "
-        "@misc{pascal-voc-2012,\n"
-        "    author = \"Everingham, M. and Van~Gool, L. and Williams, C. K. I. and Winn, J. and Zisserman, A.\",\n"
-        "    title = \"The {PASCAL} {V}isual {O}bject {C}lasses {C}hallenge 2012 {(VOC2012)} {R}esults\",\n"
-        "    howpublished = \"http://www.pascal-network.org/challenges/VOC/voc2012/workshop/index.html\""
-        ")")
-if __name__ == "__main__":
-    main()
+
+
+
+
+
+
+
+    
